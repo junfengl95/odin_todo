@@ -52,9 +52,37 @@ const domManager = (() => {
             todoDialog.showModal();
         });
 
-        closeProjectDialog
+        closeProjectDialog.addEventListener('click', () => {
+            projectDialog.closest();
+        });
 
+        closeTodoDialog.addEventListener('click', ()=> {
+            todoDialog.closest();
+        });
 
+        projectForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const projectName = document.getElementById('project-name').value;
+            if (projectName){
+                todoManager.addProject(projectName);
+                renderProjects(todoManager.projects);
+                projectDialog.closest();
+            }
+        });
+
+        todoForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const title = document.getElementById('todo-title').value;
+            const description = document.getElementById(`todo-description`).value;
+            const dueDate = document.getElementById('todo-duedate').value;
+            const priority = document.getElementById('todo-priority').value;
+
+            if (title && description && dueDate && priority){ // if all are filled up
+                todoManager.addTodoToCurrentProject(title, description, dueDate, priority);
+                renderTodos(todoManager.currentProject.todos);
+                todoDialog.closest();
+            }
+        });
     };
 
     return {renderProjects, renderTools, bindEventListeners };
