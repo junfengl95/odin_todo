@@ -1,11 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDoList</title>
+    <title>Todo App</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    
+    <div id="'app">
+        <nav id="home"> TaskMaster</nav>
+        <div id="sidebar">
+            <h2>Projects</h2>
+            <ul id="project title"></ul>
+            <button id="add-project-btn">Add Project</button>
+        </div>
+        <div id="main-content">
+            <h2 id="current-project-title">Default</h2>
+            <ul id="todo-list"></ul>
+            <button id="add-todo-btn">Add Todo</button>
+        </div>
+    </div>
+
+    <dialog id="project-dialog">
+        <header class="form-header"> New Project</header>
+        <form class="project-form" method="dialog">
+            <div class="form-row">
+                <label for="project-name">Project Name:</label>
+                <input input="text" id="project-name" name="project-name" required>
+            </div>
+            <menu>
+                <button type="submit">Add Project</button>
+                <button type="button" id="close-todo-dialog"> Cancel</button>
+            </menu>
+        </form>
+    </dialog>
+
+    <dialog id="todo-dialog">
+        <header class="form-header">New Task</header>
+        <form id="todo-form">
+            <div class="form-row">
+                <label for="todo-title">Task:</label>
+                <input type="text" id="todo-title" name="todo-title" required>
+            </div>
+            <div class="form-row">
+                <label for="todo-description">Task:</label>
+                <input type="text" id="todo-description" name="todo-description" required>
+            </div>
+            <div class="form-row">
+                <label for="todo-duedate">Task:</label>
+                <input type="date" id="todo-duedate" name="todo-duedate" required>
+            </div>
+            <div class="form-row">
+                <label for="todo-priority">Task:</label>
+                <select id="todo-priority" name="todo-priority" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option vallue="high">High</option>
+                </select>
+            </div>
+            <menu>
+                <button type="submit">Add Task</button>
+                <button type="reset" id="close-todo-dialog">Cancel</button>
+            </menu>
+        </form>
+    </dialog>
+
+    <script src="bundle.js"></script>
+
 </body>
+
 </html>
