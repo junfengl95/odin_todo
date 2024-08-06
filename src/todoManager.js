@@ -84,7 +84,7 @@ const todoManager = (() => {
         if (!currentProject) {
             throw new Error('No current project selected');
         }
-        return currentProject.getTodos(); // either todos or empty array
+        return currentProject ? currentProject.getTodos(): []; // either todos or empty array
     };
     
 

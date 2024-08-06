@@ -5,13 +5,13 @@ const domManager = (() => {
         const projectList = document.getElementById('project-list');
         projectList.innerHTML = '';
         projects.forEach(project => {
-            const li = document.createElement('li');
-            li.textContent = project.name;
-            li.addEventListener('click', () => {
+            const projectItem = document.createElement('li');
+            projectItem.textContent = project.name;
+            projectItem.addEventListener('click', () => {
                 todoManager.setCurrentProject(project.name);
                 renderTodos(todoManager.getTodosFromProject());
             });
-            projectList.appendChild(li);
+            projectList.appendChild(projectItem);
         });
     };
 
@@ -19,27 +19,28 @@ const domManager = (() => {
         const todoList = document.getElementById('todo-list');
         todoList.innerHTML = '';
         todos.forEach(todo => {
-            const li = document.createElement('li');
-            li.textContent = `${todo.title} (Due: ${todo.dueDate})`;
-            li.addEventListener('click', () => {
+            const todoItem = document.createElement('li');
+            todoItem.textContent = `${todo.title} (Due: ${todo.dueDate})`;
+            todoItem.addEventListener('click', () => {
                 // Expand details to change ~ maybe a dialog box
+                console.log(`Title: ${todo.title}, \n Description: ${todo.description} \n Due Date: ${todo.dueDate}`)
             });
-            todoList.appendChild(li);
+            todoList.appendChild(todoItem);
         });
     };
 
-    const getPriorityColor = (priority) => {
-        switch (priority){
-            case 'low':
-                return 'green';
-            case 'medium':
-                return 'orange';
-            case 'high':
-                return 'red';
-            default:
-                return 'grey'
-        }
-    };
+    // const getPriorityColor = (priority) => {
+    //     switch (priority){
+    //         case 'low':
+    //             return 'green';
+    //         case 'medium':
+    //             return 'orange';
+    //         case 'high':
+    //             return 'red';
+    //         default:
+    //             return 'grey'
+    //     }
+    // };
 
     return { renderProjects, renderTodos };
 })();
