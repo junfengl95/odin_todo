@@ -1,4 +1,3 @@
-import { de } from 'date-fns/locale/de';
 import TodoFactory from './todoFactory';
 import ProjectFactory from './projectFactory';
 
@@ -7,70 +6,105 @@ const todoManager = (() => {
     let projects = [];
     let currentProject = null;
 
-    // Initialize project
-    const init = () => {
-        const defaultProject = ProjectFactory('Default');
-        const todoFactory = TodoFactory();
+    const todoFactory = TodoFactory();
 
-        const todo1 = todoFactory.createTodo(
-            'Clean house',
-            'Spend the afternoon cleaning',
-            '2024-08-10',
-            'medium'
-        );
-
-        const todo2 = todoFactory.createTodo(
-            'Clook Dinner',
-            'Prepare Dinner ingredients',
-            '2024-08-10',
-            'high'
-        ); 
-
-        defaultProject.addTodo(todo1);
-        defaultProject.addTodo(todo2);
-
-        projects.push(defaultProject);
-        currentProject = defaultProject;
+    const saveToLocalStorage = () => {
+        localStorage.setItem('projects', JSON.stringify(projects.map(p => ({
+            name: p.name,
+            todos: p.getTodos()
+        }))));
+        localStorage.setItem('currentProject', JSON.stringify(currentProject ? { name: currentProject.name } : null));
     };
 
+    const loadFromLocalStorage = () => {
+        const storedProjects = localStorage.getItem('projects');
+        const storedCurrentProject = localStorage.getItem('currentProject');
+
+        if (storedProjects) {
+            projects = JSON.parse(storedProjects).map(projectData => {
+                const project = ProjectFactory(projectData.name);
+                projectData.todos.forEach(todoData => {
+
+
+                    const todo = todoFactory.createTodo(
+                        todoData.title,
+                        todoData.description,
+                        todoData.dueDute,
+                        todoData.priority,
+                        todoData.notes,
+                        todoData.checklist
+                    );
+                    project.addTodo(todo);
+                });
+                return project;
+            });
+        }
+
+        // Check if storedCurrentProject exist and is not null
+        if (storedCurrentProject && storedCurrentProject !== null){
+            try {
+                const currentProject = JSON.parse(storedCurrentProject);
+                currentProject = projects.find(project => project.name === currentProjectData.name) || null;
+            } catch (error){
+                console.error("Error parsing current project data from localStorage", error);
+                currentProject = null;
+            }
+        } else {
+            currentProject = null;
+        }
+
+        // project empty
+        if (!projects.length) {
+            // Create default project with default todos
+            const defaultProject = ProjectFactory('Default');
+            const todo1 = todoFactory.createTodo(
+                'Clean house',
+                'Spend the afternoon cleaning',
+                '2024-08-10',
+                'medium'
+            );
+            const todo2 = todoFactory.createTodo(
+                'Clook Dinner',
+                'Prepare Dinner ingredients',
+                '2024-08-10',
+                'high'
+            );
+
+            defaultProject.addTodo(todo1);
+            defaultProject.addTodo(todo2);
+            projects.push(defaultProject);
+            currentProject = defaultProject;
+        } else if (!currentProject) {
+            currentProject = projects[0];
+        }
+
+        saveToLocalStorage();
+    };
 
     const addProject = (name) => {
-        if (projects.some(project => project.name === name)) {
-            throw new Error(`Project with ${name} already exists`)
-        }
-        const newProject = ProjectFactory(name);
-        projects.push(newProject);
-        if (!currentProject) {
-            currentProject = newProject;
-        }
+        const project = ProjectFactory(name);
+        projects.push(project);
+        saveToLocalStorage();
     };
 
     const removeProject = (projectName) => {
-        if (projects.length === 1) {
-            throw new Error('Cannot remove the last project');
+        projects = projects.filter((project) => project.name !== name);
+        if (currentProject.name === name){
+            currentProject = project.length > 0 ? projects[0] : null;
         }
-        projects = projects.filter(project => project.name !== projectName);
-        if (currentProject.name === projectName) {
-            currentProject = projects[0] || null;
-        }
+        saveToLocalStorage();
     };
 
     const setCurrentProject = (name) => {
-        const project = projects.find(project => project.name === name);
-        if (project) {
-            currentProject = project;
-        } else {
-            throw new Error('Project not found');
-        }
+        currentProject = projects.find((project) => project.name === name);
+        saveToLocalStorage();
     };
 
-    const addTodoToProject = ( title, description, dueDute, priority, notes = '', checklist = []) => {
-        if (!currentProject) {
-            throw new Error('No current project selected');
-        }
+    const addTodoToProject = (title, description, dueDute, priority, notes = '', checklist = []) => {
         const todoFactory = TodoFactory();
         const todo = todoFactory.createTodo(title, description, dueDute, priority, notes, checklist);
         currentProject.addTodo(todo);
+        saveToLocalStorage();
     };
 
     const removeTodoFromProject = (title) => {
@@ -78,21 +112,21 @@ const todoManager = (() => {
             throw new Error('No current project selected');
         }
         currentProject.removeTodo(title);
+        saveToLocalStorage();
     };
 
-    const getTodosFromProject = (projectName) => {
+    const getTodosFromProject = () => {
         if (!currentProject) {
             throw new Error('No current project selected');
         }
-        return currentProject ? currentProject.getTodos(): []; // either todos or empty array
+        return currentProject ? currentProject.getTodos() : []; // either todos or empty array
     };
-    
 
     const getProjects = () => {
         return projects;
     };
 
-    init(); // Initialize project with todos
+    loadFromLocalStorage(); // Initialize project with todos
 
     return {
         addProject,

@@ -43,10 +43,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const dueDate = e.target.elements['todo-duedate'];
         const priority = e.target.elements['todo-priority'];
 
+        const dueDateString = dueDate.value;
+        const dueDateObject = new Date(dueDateString);
+
         if (title && description && dueDate && priority) {
             console.log("Title,", title.value);
             console.log("Description,", description.value);
-            console.log("Due Date,", dueDate.value);
+            console.log("Due Date as String,", dueDateString);
+            console.log("Due Date as Object,", dueDateObject);
             console.log("Priority,", priority.value);
 
             todoManager.addTodoToProject(title.value, description.value, dueDate.value, priority.value);
