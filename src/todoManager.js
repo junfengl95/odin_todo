@@ -9,9 +9,17 @@ const todoManager = (() => {
     const todoFactory = TodoFactory();
 
     const saveToLocalStorage = () => {
-        localStorage.setItem('projects', JSON.stringify(projects.map(p => ({
-            name: p.name,
-            todos: p.getTodos()
+        localStorage.setItem('projects', JSON.stringify(projects.map(project => ({
+            name: project.name,
+            todos: project.getTodos().map(todo => ({
+                title: todo.title,
+                description: todo.description,
+                dueDate: todo.dueDate,
+                priority: todo.priority,
+                notes: todo.notes,
+                checklist: todo.checklist,
+                completed: todo.completed
+            }))
         }))));
         localStorage.setItem('currentProject', JSON.stringify(currentProject ? { name: currentProject.name } : null));
     };
@@ -24,12 +32,10 @@ const todoManager = (() => {
             projects = JSON.parse(storedProjects).map(projectData => {
                 const project = ProjectFactory(projectData.name);
                 projectData.todos.forEach(todoData => {
-
-
                     const todo = todoFactory.createTodo(
                         todoData.title,
                         todoData.description,
-                        todoData.dueDute,
+                        todoData.dueDate, // Parse back to Date object
                         todoData.priority,
                         todoData.notes,
                         todoData.checklist
@@ -40,10 +46,10 @@ const todoManager = (() => {
             });
         }
 
-        // Check if storedCurrentProject exist and is not null
-        if (storedCurrentProject && storedCurrentProject !== null){
+        // Check if storedCurrentProject exist
+        if (storedCurrentProject){
             try {
-                const currentProject = JSON.parse(storedCurrentProject);
+                const currentProjectData = JSON.parse(storedCurrentProject);
                 currentProject = projects.find(project => project.name === currentProjectData.name) || null;
             } catch (error){
                 console.error("Error parsing current project data from localStorage", error);
