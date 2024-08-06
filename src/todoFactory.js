@@ -1,5 +1,5 @@
-const TodoFactory = () => {
-    const createTodo = (title, description, dueDate, priority, note = '', checklist = []) => {
+const todoFactory = () => {
+    const createTodo = (title, description, dueDate, priority, notes = '', checklist = []) => {
         return {
             title, 
             description, 
@@ -14,7 +14,7 @@ const TodoFactory = () => {
         };
     };
 
-    return { createTodo};
+    return { createTodo };
 };
 
-export default TodoFactory;
+export default todoFactory;

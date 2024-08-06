@@ -2,8 +2,56 @@ import todoManager from "./todoManager";
 import domManager from "./domManager";
 
 document.addEventListener('DOMContentLoaded', () => {
-    todoManager.addProject(`Default`);
-    domManager.renderProjects(todoManager);
-    domManager.renderTodos(todoManager.currentProject.todos);
-    domManager.bindEventListeners();
+    
+    const projectDialog = document.getElementById('project-dialog');
+    const todoDialog = document.getElementById('project-dialog')
+
+    const projectCloseBtn = document.getElementById('close-project-dialog');
+    const todoCloseBtn = document.getElementById('close-todo-dialog');
+
+    //Initial render
+    domManager.renderProjects(todoManager.getProjects());
+    domManager.renderTodos(todoManager.getTodosFromProject());
+
+    //Event Listeners
+    document.getElementById('add-project-btn').addEventListener('click', () => {
+        document.getElementById('project-dialog').showModal();
+    });
+
+    document.getElementById('add-todo-btn').addEventListener('click', () => {
+        document.getElementById('todo-dialog').showModal();
+    });
+
+    projectDialog.querySelector('form').addEventListener('submit', (e) =>{
+        e.preventDefault();
+        const projectName = e.target.elements['project-name'].value;
+        todoManager.addProject(projectName);
+        domManager.renderProjects(todoManager.getProjects());
+        e.target.reset(); // Reset the form
+        projectDialog.close();
+    })
+
+    projectCloseBtn.addEventListener('click', () => {
+        projectDialog.close();
+    })
+
+    todoDialog.querySelector('form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const {
+            'todo-title': title,
+            'todo-description': description,
+            'todo-dueDate': dueDate,
+            'todo-priority' : priority
+        } = e.target.elements;
+        todoManager.addTodoToProject(title.value, description.value, dueDate.value, priority.value);
+        domManager.renderTodos(todoManager.getTodosFromProject());
+        e.target.reset();
+        todoDialog.close();
+    })
+
+    todoCloseBtn.addEventListener('click', () => {
+        todoDialog.close();
+    })
+
+
 });
