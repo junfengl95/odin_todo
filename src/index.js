@@ -4,9 +4,9 @@ import domManager from "./domManager";
 document.addEventListener('DOMContentLoaded', () => {
 
     const projectDialog = document.getElementById('project-dialog');
-    const todoDialog = document.getElementById('todo-dialog')
-
     const projectCloseBtn = document.getElementById('close-project-dialog');
+    
+    const todoDialog = document.getElementById('todo-dialog');
     const todoCloseBtn = document.getElementById('close-todo-dialog');
 
     const updateDialog = document.getElementById('update-todo-dialog');
