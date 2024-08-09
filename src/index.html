@@ -64,13 +64,39 @@
                     <option vallue="high">High</option>
                 </select>
             </div>
-            <!-- <div class="form-row">
-                <label for="todo-note">Notes</label>
-                <input type="textarea" id="todo-note" name="todo-note">
-            </div> -->
             <menu>
                 <button type="submit">Add Task</button>
                 <button type="button" id="close-todo-dialog">Cancel</button>
+            </menu>
+        </form>
+    </dialog>
+
+    <dialog id="update-todo-dialog">
+        <header class="form-header">Update Task</header>
+        <form id="update-todo-form">
+            <div class="form-row">
+                <label for="update-todo-title">Task:</label>
+                <input type="text" id="update-todo-title" name="update-todo-title" required>
+            </div>
+            <div class="form-row">
+                <label for="update-todo-description">Description:</label>
+                <input type="textarea" id="update-todo-description" name="update-todo-description" required>
+            </div>
+            <div class="form-row">
+                <label for="update-todo-duedate">Due Date:</label>
+                <input type="date" id="update-todo-duedate" name="update-todo-duedate" required>
+            </div>
+            <div class="form-row">
+                <label for="update-todo-priority">Priority:</label>
+                <select id="update-todo-priority" name="update-todo-priority" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <menu>
+                <button type="submit">Update Task</button>
+                <button type="button" id="close-update-todo-dialog">Cancel</button>
             </menu>
         </form>
     </dialog>

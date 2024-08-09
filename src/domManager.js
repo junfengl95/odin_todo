@@ -18,16 +18,53 @@ const domManager = (() => {
     const renderTodos = (todos) => {
         const todoList = document.getElementById('todo-list');
         todoList.innerHTML = '';
-        todos.forEach(todo => {
+        todos.forEach((todo, index) => { // include index to ensure correct replacement
             const todoItem = document.createElement('li');
             todoItem.textContent = `${todo.title} (Due: ${todo.dueDate})`;
+
+            // Add click event listener to open the update dialog
             todoItem.addEventListener('click', () => {
-                // Expand details to change ~ maybe a dialog box
-                console.log(`Title: ${todo.title}, \n Description: ${todo.description} \n Due Date: ${todo.dueDate}`)
+                openUpdateTodoDialog(todo, index);
             });
+            
             todoList.appendChild(todoItem);
         });
     };
+
+    const openUpdateTodoDialog = (todo, index) => {
+        const updateDialog = document.getElementById('update-todo-dialog');
+        const updateTodoForm = document.getElementById('update-todo-form');
+
+        updateTodoForm.elements['update-todo-title'].value = todo.title;
+        updateTodoForm.elements['update-todo-description'].value = todo.description;
+        updateTodoForm.elements['update-todo-duedate'].value = todo.dueDate;
+        updateTodoForm.elements['update-todo-priority'].value = todo.priority;
+
+        // Open the dialog
+        updateDialog.showModal();
+
+        updateTodoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById('update-todo-title').value;
+            const description = document.getElementById('update-todo-description').value;
+            const dueDate = document.getElementById('update-todo-duedate').value;
+            const priority = document.getElementById('update-todo-priority').value;
+
+            // update the todo in the project
+            todoManager.updateTodoInProject(index, title, description, dueDate, priority);
+
+            updateDialog.close();
+
+            //Re-render todos
+            renderTodos(todoManager.getCurrentProject().getTodos());
+        })
+    };
+
+    
+   
+
+    
 
     // const getPriorityColor = (priority) => {
     //     switch (priority){

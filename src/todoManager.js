@@ -1,7 +1,6 @@
 import TodoFactory from './todoFactory';
 import ProjectFactory from './projectFactory';
 
-
 const todoManager = (() => {
     let projects = [];
     let currentProject = null;
@@ -70,7 +69,7 @@ const todoManager = (() => {
                 'medium'
             );
             const todo2 = todoFactory.createTodo(
-                'Clook Dinner',
+                'Cook Dinner',
                 'Prepare Dinner ingredients',
                 '2024-08-10',
                 'high'
@@ -86,6 +85,14 @@ const todoManager = (() => {
 
         saveToLocalStorage();
     };
+
+    const getProjects = () => {
+        return projects;
+    };
+
+    const getCurrentProject = () => {
+        return currentProject;
+    }
 
     const addProject = (name) => {
         const project = ProjectFactory(name);
@@ -113,11 +120,31 @@ const todoManager = (() => {
         saveToLocalStorage();
     };
 
-    const removeTodoFromProject = (title) => {
+    // Update using index of todo []
+    const updateTodoInProject = (index, title, description, dueDate, priority) => {
+        if (currentProject){
+            const todo = currentProject.getTodos()[index];
+            if (todo){
+                // Update todo properties
+                todo.title = title;
+                todo.description = description;
+                todo.dueDate = dueDate;
+                todo.priority = priority
+
+                saveToLocalStorage();
+            } else {
+                console.error('Todo not found at index', index);
+            }
+        } else {
+            console.error('No current project selected');
+        }
+    };
+
+    const removeTodoFromProject = (index) => {
         if (!currentProject) {
             throw new Error('No current project selected');
         }
-        currentProject.removeTodo(title);
+        currentProject.removeTodo(index);
         saveToLocalStorage();
     };
 
@@ -128,9 +155,7 @@ const todoManager = (() => {
         return currentProject ? currentProject.getTodos() : []; // either todos or empty array
     };
 
-    const getProjects = () => {
-        return projects;
-    };
+    
 
     loadFromLocalStorage(); // Initialize project with todos
 
@@ -139,9 +164,12 @@ const todoManager = (() => {
         removeProject,
         setCurrentProject,
         addTodoToProject,
+        updateTodoInProject,
         removeTodoFromProject,
         getTodosFromProject,
         getProjects,
+        getCurrentProject,
+        saveToLocalStorage
     };
 })();
 
