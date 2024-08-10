@@ -100,11 +100,17 @@ const todoManager = (() => {
         saveToLocalStorage();
     };
 
-    const removeProject = (projectName) => {
-        projects = projects.filter((project) => project.name !== name);
-        if (currentProject.name === name){
-            currentProject = project.length > 0 ? projects[0] : null;
+    const removeProject = (index) => {
+        projects.splice(index, 1);
+        
+        // Update current Project
+        if (projects.length > 0) {
+            // Set the previous project as the current project if it exist
+            currentProject = projects[Math.min(index, projects.length -1)];
+        } else {
+            currentProject = null;
         }
+
         saveToLocalStorage();
     };
 
@@ -160,6 +166,8 @@ const todoManager = (() => {
     loadFromLocalStorage(); // Initialize project with todos
 
     return {
+        projects,
+        currentProject,
         addProject,
         removeProject,
         setCurrentProject,

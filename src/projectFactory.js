@@ -5,8 +5,8 @@ const projectFactory = (name) => {
         todos.push(todo);
     };
 
-    const removeTodo = (todoTitle) => {
-        todos = todos.filter(todo => todo.title !== todoTitle);
+    const removeTodo = (index) => {
+        todos.splice(index, 1); // Remove todo by index
     };
 
     const getTodos = () => {
