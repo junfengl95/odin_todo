@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="../src/styles.css">
+<script defer src="main.js"></script></head>
+
+<body>
+    <div id="'app">
+        <nav id="home"> TaskMaster</nav>
+        <div id="contents">
+            <div id="sidebar">
+                <div id="project-title">
+                    <span>Projects</span>
+                    <button id="add-project-btn">+</button>
+                </div>
+                <ul id="project-list"></ul>
+            </div>
+            <div id="main-content">
+                <h2 id="current-project-title">Task</h2>
+                <ul id="todo-list"></ul>
+                <button id="add-todo-btn">Add Task</button>
+            </div>
+        </div>
+    </div>
+
+    <dialog id="project-dialog">
+        <header class="form-header"> New Project</header>
+        <form id="project-form" method="dialog">
+            <div class="form-row">
+                <label for="project-name">Project Name:</label>
+                <input input="text" id="project-name" name="project-name" required>
+            </div>
+            <menu>
+                <button type="submit">Add Project</button>
+                <button type="button" id="close-project-dialog"> Cancel</button>
+            </menu>
+        </form>
+    </dialog>
+
+    <dialog id="todo-dialog">
+        <header class="form-header">New Task</header>
+        <form id="todo-form">
+            <div class="form-row">
+                <label for="todo-title">Task:</label>
+                <input type="text" id="todo-title" name="todo-title" required>
+            </div>
+            <div class="form-row">
+                <label for="todo-description">Description:</label>
+                <textarea id="todo-description" name="todo-description" required></textarea>
+            </div>
+            <div class="form-row">
+                <label for="todo-duedate">Due Date:</label>
+                <input type="date" id="todo-duedate" name="todo-duedate" required>
+            </div>
+            <div class="form-row">
+                <label for="todo-priority">Priority:</label>
+                <select id="todo-priority" name="todo-priority" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option vallue="high">High</option>
+                </select>
+            </div>
+            <menu>
+                <button type="submit">Add Task</button>
+                <button type="button" id="close-todo-dialog">Cancel</button>
+            </menu>
+        </form>
+    </dialog>
+
+    <dialog id="update-todo-dialog">
+        <header class="form-header">Update Task</header>
+        <form id="update-todo-form">
+            <div class="form-row">
+                <label for="update-todo-title">Task:</label>
+                <input type="text" id="update-todo-title" name="update-todo-title" required>
+            </div>
+            <div class="form-row">
+                <label for="update-todo-description">Description:</label>
+                <textarea id="update-todo-description" name="update-todo-description" required></textarea>
+            </div>
+            <div class="form-row">
+                <label for="update-todo-duedate">Due Date:</label>
+                <input type="date" id="update-todo-duedate" name="update-todo-duedate" required>
+            </div>
+            <div class="form-row">
+                <label for="update-todo-priority">Priority:</label>
+                <select id="update-todo-priority" name="update-todo-priority" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <menu>
+                <button type="submit">Update Task</button>
+                <button type="button" id="close-update-todo-dialog">Cancel</button>
+            </menu>
+        </form>
+    </dialog>
+</body>
+
+</html>
