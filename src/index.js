@@ -1,5 +1,6 @@
 import todoManager from "./todoManager";
 import domManager from "./domManager";
+import './styles.css';
 
 document.addEventListener('DOMContentLoaded', () => {
 
